@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="note.com"/>
+
+    <!-- Bean加载案例 -->
+    <bean id="xmlBeanA" class="note.com.beans.xml.BeanA"></bean>
+    <bean id="xmlBeanB" class="note.com.beans.xml.BeanB">
+        <meta key="23" value="23" />
+        <property name="beanA" ref="xmlBeanA"/>
+    </bean>
+    <bean id="xmlBeanC" class="note.com.beans.xml.BeanC">
+        <property name="beanA" ref="xmlBeanA"/>
+        <property name="beanB" ref="xmlBeanB"/>
+    </bean>
+    <!---->
+
+    <!--Spring 监听器案例-->
+    <bean id="myLogic" class="note.com.beans.listener.MyLogic"></bean>
+    <bean id="myListener" class="note.com.beans.listener.MyListener"></bean>
+    <!---->
+
+    <!--工厂Bean模式案例-->
+    <bean    id="fruit" class="note.com.beans.factorybean.FruitFactory" ></bean>
+    <!---->
+
+    <!--两种自定义属性编辑器案例-->
+    <bean  id="normalBean" class="note.com.beans.propertyeditor.NormalBean" >
+        <property name="name" value="春田花花"></property>
+        <property name="count" value="10"></property>
+        <property name="time" value="1990-10-10"></property>
+    </bean>
+    <bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+        <property name="customEditors">
+            <map>
+                <entry key="java.util.Date"
+                       value="note.com.beans.propertyeditor.DatePropertyEditor"/>
+            </map>
+        </property>
+        <!--<property name="propertyEditorRegistrars">-->
+            <!--<list>-->
+                <!--<bean class="note.com.beans.propertyeditor.DatePropertyEditorRegister"></bean>-->
+            <!--</list>-->
+        <!--</property>-->
+    </bean>
+    <!---->
+
+
+</beans>

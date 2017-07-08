@@ -1,0 +1,33 @@
+@startuml
+XmlBeanFactory -> XmlBeanDefinitionReader: loadBeanDefinitions() \n创建资源对象,校验
+XmlBeanDefinitionReader --> XmlBeanDefinitionReader: doLoadDocument() \n创建Document对象
+XmlBeanDefinitionReader --> XmlBeanDefinitionReader:getEntityResolver() \n创建Sax资源处理器
+XmlBeanDefinitionReader --> DefaultDocumentLoader:loadDocument() \n解析XML,
+DefaultDocumentLoader --> DefaultDocumentLoader:createDocumentBuilderFactory()\n构建DOM解析器工厂
+DefaultDocumentLoader --> DefaultDocumentLoader:createDocumentBuilder()\n创建建DOM解析器
+DefaultDocumentLoader -->XmlBeanDefinitionReader: 返回Document对象
+XmlBeanDefinitionReader --> XmlBeanDefinitionReader:registerBeanDefinitions() \n注册Bean定义
+XmlBeanDefinitionReader --> XmlBeanDefinitionReader:createBeanDefinitionDocumentReader() 创建Spring document读取器
+XmlBeanDefinitionReader --> XmlBeanDefinitionReader:createReaderContext() \n创建XML读取上下文,默认解析器
+XmlBeanDefinitionReader --> XmlBeanDefinitionReader:getNamespaceHandlerResolver() \n获取自定义标签解析器
+XmlBeanDefinitionReader --> DefaultBeanDefinitionDocumentReader:registerBeanDefinitions()\n获取Root节点
+DefaultBeanDefinitionDocumentReader --> DefaultBeanDefinitionDocumentReader:doRegisterBeanDefinitions() \n注册bean
+DefaultBeanDefinitionDocumentReader --> DefaultBeanDefinitionDocumentReader:createDelegate() \n创建标签处理委托
+DefaultBeanDefinitionDocumentReader --> DefaultBeanDefinitionDocumentReader:preProcessXml() \n解析beans前钩子
+DefaultBeanDefinitionDocumentReader --> DefaultBeanDefinitionDocumentReader:parseBeanDefinitions() \n解析Bean
+DefaultBeanDefinitionDocumentReader --> DefaultBeanDefinitionDocumentReader:parseDefaultElement() \n默认空间的元素解析
+DefaultBeanDefinitionDocumentReader --> DefaultBeanDefinitionDocumentReader:doRegisterBeanDefinitions() \nbeans元素解析(迭代)
+DefaultBeanDefinitionDocumentReader --> DefaultBeanDefinitionDocumentReader:importBeanDefinitionResource() \nimport元素解析
+DefaultBeanDefinitionDocumentReader --> DefaultBeanDefinitionDocumentReader:processAliasRegistration() \n alias元素解析
+DefaultBeanDefinitionDocumentReader --> DefaultBeanDefinitionDocumentReader:processBeanDefinition() \n bean元素解析
+DefaultBeanDefinitionDocumentReader --> BeanDefinitionParserDelegate:parseBeanDefinitionElement() \n委托处理bean元素
+BeanDefinitionParserDelegate --> BeanDefinitionParserDelegate:createBeanDefinition() \n获取Bean定义对象
+BeanDefinitionParserDelegate --> BeanDefinitionParserDelegate:parseBeanDefinitionAttributes() 设置bean元素的属性
+BeanDefinitionParserDelegate --> BeanDefinitionParserDelegate:xxxx初始化beandefinition属性
+BeanDefinitionParserDelegate --> DefaultBeanDefinitionDocumentReader:AbstractBeanDefinition \n返回bean定义
+DefaultBeanDefinitionDocumentReader --> BeanDefinitionParserDelegate:decorateBeanDefinitionIfRequired() \n处理自定义属性,自定义子元素
+BeanDefinitionParserDelegate --> DefaultBeanDefinitionDocumentReader:返回
+DefaultBeanDefinitionDocumentReader --> BeanDefinitionReaderUtils:registerBeanDefinition() \n注册到注册表中
+DefaultBeanDefinitionDocumentReader --> DefaultBeanDefinitionDocumentReader:parseCustomElement() \n自定义空间的元素解析(略)
+DefaultBeanDefinitionDocumentReader --> DefaultBeanDefinitionDocumentReader:postProcessXml() \n解析beans后钩子
+@enduml
